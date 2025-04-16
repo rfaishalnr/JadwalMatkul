@@ -1,0 +1,573 @@
+<!DOCTYPE html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Jadwal Mata Kuliah</title>
+    <link rel="manifest" href="#" id="manifestPlaceholder" />
+    <meta name="theme-color" content="#3f51b5" />
+    <style>
+      * {
+        box-sizing: border-box;
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+      }
+      body {
+        margin: 0;
+        padding: 0;
+        background-color: #f0f2f5;
+        color: #333;
+      }
+      header {
+        background: linear-gradient(135deg, #3f51b5 0%, #5c6bc0 100%);
+        color: white;
+        padding: 25px 20px;
+        text-align: center;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        position: relative;
+      }
+      header h1 {
+        margin: 0;
+        font-size: 28px;
+        font-weight: 600;
+      }
+      main {
+        max-width: 900px;
+        margin: 30px auto;
+        padding: 25px;
+        background-color: white;
+        border-radius: 12px;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+      }
+      .form-group {
+        margin-bottom: 20px;
+      }
+      label {
+        display: block;
+        margin-bottom: 8px;
+        font-weight: 500;
+        color: #555;
+      }
+      input,
+      select {
+        width: 100%;
+        padding: 12px;
+        border: 1px solid #ddd;
+        border-radius: 6px;
+        font-size: 16px;
+        transition: border-color 0.3s, box-shadow 0.3s;
+      }
+      input:focus,
+      select:focus {
+        outline: none;
+        border-color: #3f51b5;
+        box-shadow: 0 0 0 2px rgba(63, 81, 181, 0.2);
+      }
+      button {
+        background-color: #3f51b5;
+        color: white;
+        border: none;
+        padding: 12px 24px;
+        border-radius: 6px;
+        cursor: pointer;
+        font-size: 16px;
+        font-weight: 500;
+        transition: all 0.3s;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.15);
+      }
+      button:hover {
+        background-color: #303f9f;
+        transform: translateY(-2px);
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+      }
+      button:active {
+        transform: translateY(0);
+      }
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 30px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+        border-radius: 8px;
+        overflow: hidden;
+      }
+      th,
+      td {
+        padding: 15px;
+        text-align: left;
+        border-bottom: 1px solid #eee;
+      }
+      th {
+        background-color: #f7f9fc;
+        font-weight: 600;
+        color: #444;
+      }
+      tr:last-child td {
+        border-bottom: none;
+      }
+      tr:hover {
+        background-color: #f9fafc;
+      }
+      .actions {
+        display: flex;
+        gap: 8px;
+      }
+      .delete-btn {
+        background-color: #f44336;
+      }
+      .delete-btn:hover {
+        background-color: #d32f2f;
+      }
+      .attendance-yes {
+        background-color: #4caf50;
+      }
+      .attendance-yes:hover {
+        background-color: #388e3c;
+      }
+      .attendance-no {
+        background-color: #ff9800;
+      }
+      .attendance-no:hover {
+        background-color: #f57c00;
+      }
+      .present {
+        color: #4caf50;
+        font-weight: 600;
+      }
+      .absent {
+        color: #ff9800;
+        font-weight: 600;
+      }
+      .attendance-btn {
+        padding: 8px 12px;
+        font-size: 14px;
+      }
+      .install-prompt {
+        background: linear-gradient(135deg, #e8f0fe 0%, #d4e4fa 100%);
+        padding: 18px;
+        margin-bottom: 25px;
+        border-radius: 8px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+        border-left: 4px solid #3f51b5;
+      }
+      .install-prompt p {
+        margin: 0;
+        font-size: 16px;
+        font-weight: 500;
+      }
+      #installBtn {
+        background-color: #3f51b5;
+        padding: 10px 20px;
+      }
+      .section-title {
+        border-bottom: 2px solid #eee;
+        padding-bottom: 10px;
+        margin-top: 30px;
+        color: #3f51b5;
+        font-weight: 600;
+      }
+      .empty-state {
+        text-align: center;
+        padding: 30px;
+        color: #777;
+      }
+      .card {
+        background-color: white;
+        border-radius: 8px;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+        padding: 20px;
+        margin-bottom: 20px;
+      }
+      @media (max-width: 768px) {
+        main {
+          padding: 20px;
+          margin: 20px 15px;
+        }
+        .actions {
+          flex-wrap: wrap;
+        }
+        .attendance-btn {
+          flex: 1;
+          min-width: 100px;
+        }
+        table {
+          font-size: 14px;
+        }
+        th,
+        td {
+          padding: 12px 10px;
+        }
+      }
+
+      @media (max-width: 480px) {
+        header h1 {
+          font-size: 22px;
+        }
+
+        .section-title {
+          font-size: 18px;
+        }
+
+        input,
+        select,
+        button {
+          font-size: 14px;
+          padding: 10px;
+        }
+
+        .attendance-btn {
+          min-width: 100%;
+          margin-top: 5px;
+        }
+
+        table th,
+        table td {
+          padding: 10px 8px;
+        }
+
+        .install-prompt {
+          flex-direction: column;
+          align-items: flex-start;
+          gap: 10px;
+        }
+
+        #installBtn {
+          width: 100%;
+          text-align: center;
+        }
+        @media (max-width: 768px) {
+          .table-wrapper {
+            overflow-x: auto;
+          }
+
+          table {
+            min-width: 700px;
+          }
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <h1>Jadwal Mata Kuliah</h1>
+    </header>
+
+    <main>
+      <div class="install-prompt" id="installPrompt">
+        <p>
+          <strong>📱 Instal Aplikasi</strong> - Akses jadwal kuliah Anda kapan
+          saja, bahkan offline!
+        </p>
+        <button id="installBtn">Instal Sekarang</button>
+      </div>
+
+      <div class="card">
+        <h2 class="section-title">Tambah Mata Kuliah Baru</h2>
+        <form id="courseForm">
+          <div class="form-group">
+            <label for="courseName">Nama Mata Kuliah:</label>
+            <input
+              type="text"
+              id="courseName"
+              placeholder="Contoh: Pemrograman Web"
+              required
+            />
+          </div>
+
+          <div class="form-group">
+            <label for="day">Hari:</label>
+            <select id="day" required>
+              <option value="">Pilih Hari</option>
+              <option value="Senin">Senin</option>
+              <option value="Selasa">Selasa</option>
+              <option value="Rabu">Rabu</option>
+              <option value="Kamis">Kamis</option>
+              <option value="Jumat">Jumat</option>
+              <option value="Sabtu">Sabtu</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label for="time">Jam:</label>
+            <input type="time" id="time" required />
+          </div>
+
+          <div class="form-group">
+            <label for="room">Ruangan:</label>
+            <input type="text" id="room" placeholder="Contoh: A-301" required />
+          </div>
+
+          <button type="submit">Tambah Mata Kuliah</button>
+        </form>
+      </div>
+
+      <h2 class="section-title">Daftar Mata Kuliah</h2>
+      <table id="courseTable">
+        <thead>
+          <tr>
+            <th>Mata Kuliah</th>
+            <th>Hari</th>
+            <th>Jam</th>
+            <th>Ruangan</th>
+            <th>Masuk/Tidak Masuk</th>
+            <th>Aksi</th>
+          </tr>
+        </thead>
+        <tbody>
+          <!-- Data akan ditampilkan disini -->
+        </tbody>
+      </table>
+    </main>
+
+    <script>
+      // Konfigurasi Manifest untuk PWA
+      const manifestContent = {
+        name: "Jadwal Mata Kuliah",
+        short_name: "JadwalKuliah",
+        start_url: ".",
+        display: "standalone",
+        background_color: "#ffffff",
+        theme_color: "#3f51b5",
+        icons: [
+          {
+            src: "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMDAgMTAwIj48cmVjdCB3aWR0aD0iMTAwIiBoZWlnaHQ9IjEwMCIgZmlsbD0iIzNmNTFiNSIgcng9IjIwIiByeT0iMjAiLz48dGV4dCB4PSI1MCIgeT0iNTUiIGZvbnQtZmFtaWx5PSJhcmlhbCIgZm9udC1zaXplPSI0MCIgZmlsbD0id2hpdGUiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGRvbWluYW50LWJhc2VsaW5lPSJtaWRkbGUiPkpLPC90ZXh0Pjwvc3ZnPg==",
+            sizes: "192x192",
+            type: "image/svg+xml",
+          },
+          {
+            src: "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMDAgMTAwIj48cmVjdCB3aWR0aD0iMTAwIiBoZWlnaHQ9IjEwMCIgZmlsbD0iIzNmNTFiNSIgcng9IjIwIiByeT0iMjAiLz48dGV4dCB4PSI1MCIgeT0iNTUiIGZvbnQtZmFtaWx5PSJhcmlhbCIgZm9udC1zaXplPSI0MCIgZmlsbD0id2hpdGUiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGRvbWluYW50LWJhc2VsaW5lPSJtaWRkbGUiPkpLPC90ZXh0Pjwvc3ZnPg==",
+            sizes: "512x512",
+            type: "image/svg+xml",
+          },
+        ],
+      };
+
+      // Buat URL untuk manifest
+      const manifestUrl = URL.createObjectURL(
+        new Blob([JSON.stringify(manifestContent)], {
+          type: "application/json",
+        })
+      );
+      document
+        .getElementById("manifestPlaceholder")
+        .setAttribute("href", manifestUrl);
+
+      // Daftar untuk menampung data kursus
+      let courses = JSON.parse(localStorage.getItem("courses")) || [];
+
+      // Menampilkan data kursus saat pertama kali memuat halaman
+      displayCourses();
+
+      // Event listener untuk form
+      document
+        .getElementById("courseForm")
+        .addEventListener("submit", function (e) {
+          e.preventDefault();
+
+          const courseName = document.getElementById("courseName").value;
+          const day = document.getElementById("day").value;
+          const time = document.getElementById("time").value;
+          const room = document.getElementById("room").value;
+
+          // Membuat ID unik untuk setiap kursus
+          const id = Date.now().toString();
+
+          // Menambahkan kursus baru
+          const newCourse = {
+            id,
+            name: courseName,
+            day,
+            time,
+            room,
+            attendance: null, // null berarti belum ditentukan
+          };
+
+          courses.push(newCourse);
+          saveCourses();
+          displayCourses();
+
+          // Reset form
+          this.reset();
+
+          // Tampilkan notifikasi
+          alert("Mata kuliah berhasil ditambahkan!");
+        });
+
+      // Fungsi untuk menyimpan data kursus ke localStorage
+      function saveCourses() {
+        localStorage.setItem("courses", JSON.stringify(courses));
+      }
+
+      // Fungsi untuk menampilkan data kursus
+      function displayCourses() {
+        const tableBody = document.querySelector("#courseTable tbody");
+        tableBody.innerHTML = "";
+
+        if (courses.length === 0) {
+          tableBody.innerHTML =
+            '<tr><td colspan="6" class="empty-state">Belum ada mata kuliah yang ditambahkan</td></tr>';
+          return;
+        }
+
+        // Sortir berdasarkan hari dan waktu
+        courses.sort((a, b) => {
+          const days = ["Senin", "Selasa", "Rabu", "Kamis", "Jumat", "Sabtu"];
+          const dayA = days.indexOf(a.day);
+          const dayB = days.indexOf(b.day);
+
+          if (dayA !== dayB) {
+            return dayA - dayB;
+          }
+
+          return a.time.localeCompare(b.time);
+        });
+
+        courses.forEach((course) => {
+          const row = document.createElement("tr");
+
+          // Format waktu untuk tampilan yang lebih baik
+          const timeFormatted = formatTime(course.time);
+
+          // Tentukan kelas dan teks untuk kehadiran
+          let attendanceClass = "";
+          let attendanceText = "Belum ditentukan";
+
+          if (course.attendance === true) {
+            attendanceClass = "present";
+            attendanceText = "Masuk";
+          } else if (course.attendance === false) {
+            attendanceClass = "absent";
+            attendanceText = "Tidak Masuk";
+          }
+
+          row.innerHTML = `
+                    <td><strong>${course.name}</strong></td>
+                    <td>${course.day}</td>
+                    <td>${timeFormatted}</td>
+                    <td>${course.room}</td>
+                    <td class="${attendanceClass}">${attendanceText}</td>
+                    <td class="actions">
+                        <button class="attendance-btn attendance-yes" onclick="markAttendance('${course.id}', true)">Masuk</button>
+                        <button class="attendance-btn attendance-no" onclick="markAttendance('${course.id}', false)">Tidak Masuk</button>
+                        <button class="delete-btn" onclick="deleteCourse('${course.id}')">Hapus</button>
+                    </td>
+                `;
+
+          tableBody.appendChild(row);
+        });
+      }
+
+      // Format waktu dari 24 jam
+      function formatTime(time) {
+        if (!time) return "";
+
+        const [hours, minutes] = time.split(":");
+        return `${hours}:${minutes}`;
+      }
+
+      // Fungsi untuk menandai kehadiran
+      window.markAttendance = function (id, isPresent) {
+        const courseIndex = courses.findIndex((course) => course.id === id);
+        if (courseIndex !== -1) {
+          courses[courseIndex].attendance = isPresent;
+          saveCourses();
+          displayCourses();
+        }
+      };
+
+      // Fungsi untuk menghapus kursus
+      window.deleteCourse = function (id) {
+        if (confirm("Apakah Anda yakin ingin menghapus mata kuliah ini?")) {
+          courses = courses.filter((course) => course.id !== id);
+          saveCourses();
+          displayCourses();
+        }
+      };
+
+      // Registrasi Service Worker untuk PWA
+      if ("serviceWorker" in navigator) {
+        window.addEventListener("load", function () {
+          // Buat dan suntikkan service worker
+          const swContent = `
+                    const CACHE_NAME = 'jadwal-mata-kuliah-v1';
+                    const urlsToCache = [
+                        '/',
+                        '/index.html',
+                        '${manifestUrl}'
+                    ];
+
+                    self.addEventListener('install', function(event) {
+                        event.waitUntil(
+                            caches.open(CACHE_NAME)
+                                .then(function(cache) {
+                                    return cache.addAll(urlsToCache);
+                                })
+                        );
+                    });
+
+                    self.addEventListener('fetch', function(event) {
+                        event.respondWith(
+                            caches.match(event.request)
+                                .then(function(response) {
+                                    if (response) {
+                                        return response;
+                                    }
+                                    return fetch(event.request);
+                                })
+                        );
+                    });
+                `;
+
+          const swBlob = new Blob([swContent], { type: "text/javascript" });
+          const swUrl = URL.createObjectURL(swBlob);
+          navigator.serviceWorker
+            .register(swUrl)
+            .then(function (registration) {
+              console.log("ServiceWorker registration successful");
+            })
+            .catch(function (err) {
+              console.log("ServiceWorker registration failed: ", err);
+            });
+        });
+      }
+
+      // Menampilkan prompt instalasi - DIUBAH UNTUK SELALU DITAMPILKAN
+      document.getElementById("installPrompt").style.display = "flex";
+
+      let deferredPrompt;
+      const installBtn = document.getElementById("installBtn");
+
+      window.addEventListener("beforeinstallprompt", (e) => {
+        // Mencegah Chrome dari menampilkan prompt instalasi otomatis
+        e.preventDefault();
+        // Simpan event agar dapat dipicu nanti
+        deferredPrompt = e;
+      });
+
+      installBtn.addEventListener("click", async () => {
+        if (deferredPrompt) {
+          // Tampilkan prompt instalasi
+          deferredPrompt.prompt();
+          // Tunggu pengguna merespons prompt
+          const { outcome } = await deferredPrompt.userChoice;
+          console.log(`User ${outcome} the installation`);
+          // Hapus referensi karena tidak bisa digunakan lagi
+          deferredPrompt = null;
+        } else {
+          alert(
+            'Aplikasi ini dapat diinstal melalui menu browser Anda. Di Chrome, klik tiga titik di kanan atas dan pilih "Instal Jadwal Mata Kuliah"'
+          );
+        }
+      });
+
+      window.addEventListener("appinstalled", () => {
+        // Update teks tombol setelah instalasi
+        document.getElementById("installPrompt").innerHTML =
+          "<p>✅ Aplikasi berhasil diinstal! Anda dapat mengaksesnya dari layar beranda perangkat Anda.</p>";
+        console.log("PWA was installed");
+      });
+    </script>
+  </body>
+</html>
