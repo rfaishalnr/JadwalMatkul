@@ -1,573 +1,778 @@
 <!DOCTYPE html>
 <html lang="id">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Jadwal Mata Kuliah</title>
-    <link rel="manifest" href="#" id="manifestPlaceholder" />
-    <meta name="theme-color" content="#3f51b5" />
+    <link rel="manifest" href="#" id="manifestPlaceholder">
+    <meta name="theme-color" content="#7928CA">
     <style>
-      * {
-        box-sizing: border-box;
-        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
-      }
-      body {
-        margin: 0;
-        padding: 0;
-        background-color: #f0f2f5;
-        color: #333;
-      }
-      header {
-        background: linear-gradient(135deg, #3f51b5 0%, #5c6bc0 100%);
-        color: white;
-        padding: 25px 20px;
-        text-align: center;
-        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-        position: relative;
-      }
-      header h1 {
-        margin: 0;
-        font-size: 28px;
-        font-weight: 600;
-      }
-      main {
-        max-width: 900px;
-        margin: 30px auto;
-        padding: 25px;
-        background-color: white;
-        border-radius: 12px;
-        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
-      }
-      .form-group {
-        margin-bottom: 20px;
-      }
-      label {
-        display: block;
-        margin-bottom: 8px;
-        font-weight: 500;
-        color: #555;
-      }
-      input,
-      select {
-        width: 100%;
-        padding: 12px;
-        border: 1px solid #ddd;
-        border-radius: 6px;
-        font-size: 16px;
-        transition: border-color 0.3s, box-shadow 0.3s;
-      }
-      input:focus,
-      select:focus {
-        outline: none;
-        border-color: #3f51b5;
-        box-shadow: 0 0 0 2px rgba(63, 81, 181, 0.2);
-      }
-      button {
-        background-color: #3f51b5;
-        color: white;
-        border: none;
-        padding: 12px 24px;
-        border-radius: 6px;
-        cursor: pointer;
-        font-size: 16px;
-        font-weight: 500;
-        transition: all 0.3s;
-        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.15);
-      }
-      button:hover {
-        background-color: #303f9f;
-        transform: translateY(-2px);
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
-      }
-      button:active {
-        transform: translateY(0);
-      }
-      table {
-        width: 100%;
-        border-collapse: collapse;
-        margin-top: 30px;
-        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
-        border-radius: 8px;
-        overflow: hidden;
-      }
-      th,
-      td {
-        padding: 15px;
-        text-align: left;
-        border-bottom: 1px solid #eee;
-      }
-      th {
-        background-color: #f7f9fc;
-        font-weight: 600;
-        color: #444;
-      }
-      tr:last-child td {
-        border-bottom: none;
-      }
-      tr:hover {
-        background-color: #f9fafc;
-      }
-      .actions {
-        display: flex;
-        gap: 8px;
-      }
-      .delete-btn {
-        background-color: #f44336;
-      }
-      .delete-btn:hover {
-        background-color: #d32f2f;
-      }
-      .attendance-yes {
-        background-color: #4caf50;
-      }
-      .attendance-yes:hover {
-        background-color: #388e3c;
-      }
-      .attendance-no {
-        background-color: #ff9800;
-      }
-      .attendance-no:hover {
-        background-color: #f57c00;
-      }
-      .present {
-        color: #4caf50;
-        font-weight: 600;
-      }
-      .absent {
-        color: #ff9800;
-        font-weight: 600;
-      }
-      .attendance-btn {
-        padding: 8px 12px;
-        font-size: 14px;
-      }
-      .install-prompt {
-        background: linear-gradient(135deg, #e8f0fe 0%, #d4e4fa 100%);
-        padding: 18px;
-        margin-bottom: 25px;
-        border-radius: 8px;
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
-        border-left: 4px solid #3f51b5;
-      }
-      .install-prompt p {
-        margin: 0;
-        font-size: 16px;
-        font-weight: 500;
-      }
-      #installBtn {
-        background-color: #3f51b5;
-        padding: 10px 20px;
-      }
-      .section-title {
-        border-bottom: 2px solid #eee;
-        padding-bottom: 10px;
-        margin-top: 30px;
-        color: #3f51b5;
-        font-weight: 600;
-      }
-      .empty-state {
-        text-align: center;
-        padding: 30px;
-        color: #777;
-      }
-      .card {
-        background-color: white;
-        border-radius: 8px;
-        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
-        padding: 20px;
-        margin-bottom: 20px;
-      }
-      @media (max-width: 768px) {
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+        
+        :root {
+            --primary: #7928CA;
+            --primary-dark: #6517a9;
+            --secondary: #00F2FE;
+            --accent: #FF2079;
+            --background: #0F0E17;
+            --card-bg: #1E1B29;
+            --text-primary: #FFFFFE;
+            --text-secondary: #A7A9BE;
+            --success: #72F2EB;
+            --danger: #FF5470;
+            --warning: #FFC15E;
+        }
+        
+        * {
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+            transition: all 0.3s ease;
+        }
+        
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: var(--background);
+            color: var(--text-primary);
+            background-image: 
+                radial-gradient(circle at 10% 20%, rgba(121, 40, 202, 0.3) 0%, transparent 20%),
+                radial-gradient(circle at 80% 80%, rgba(0, 242, 254, 0.2) 0%, transparent 20%);
+            background-attachment: fixed;
+        }
+        
+        header {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            color: white;
+            padding: 25px;
+            text-align: center;
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.2);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        header::before {
+            content: "";
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(
+                to right,
+                rgba(255, 255, 255, 0) 0%,
+                rgba(255, 255, 255, 0.3) 50%,
+                rgba(255, 255, 255, 0) 100%
+            );
+            transform: rotate(30deg);
+            animation: shine 8s infinite linear;
+        }
+        
+        @keyframes shine {
+            0% { transform: translateX(-100%) rotate(30deg); }
+            100% { transform: translateX(100%) rotate(30deg); }
+        }
+        
+        h1 {
+            margin: 0;
+            position: relative;
+            z-index: 1;
+            font-weight: 700;
+            letter-spacing: 1px;
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+        }
+        
         main {
-          padding: 20px;
-          margin: 20px 15px;
+            max-width: 900px;
+            margin: 30px auto;
+            padding: 0 20px;
         }
-        .actions {
-          flex-wrap: wrap;
+        
+        .card {
+            background-color: var(--card-bg);
+            border-radius: 16px;
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2);
+            padding: 30px;
+            margin-bottom: 30px;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            backdrop-filter: blur(10px);
+            position: relative;
+            overflow: hidden;
         }
-        .attendance-btn {
-          flex: 1;
-          min-width: 100px;
+        
+        .card::after {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, var(--primary), var(--secondary), var(--accent));
+            border-radius: 16px 16px 0 0;
         }
-        table {
-          font-size: 14px;
+        
+        .glow {
+            position: absolute;
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            background: var(--primary);
+            filter: blur(80px);
+            opacity: 0.15;
         }
-        th,
-        td {
-          padding: 12px 10px;
+        
+        .glow.primary {
+            top: -20px;
+            left: 10%;
+            background: var(--primary);
         }
-      }
-
-      @media (max-width: 480px) {
-        header h1 {
-          font-size: 22px;
+        
+        .glow.secondary {
+            bottom: -30px;
+            right: 15%;
+            background: var(--secondary);
         }
-
-        .section-title {
-          font-size: 18px;
+        
+        .form-group {
+            margin-bottom: 24px;
+            position: relative;
         }
-
-        input,
-        select,
+        
+        label {
+            display: block;
+            margin-bottom: 10px;
+            font-weight: 500;
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+        }
+        
+        input, select {
+            width: 100%;
+            padding: 14px 16px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            font-size: 16px;
+            background-color: rgba(0, 0, 0, 0.2);
+            color: var(--text-primary);
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+        
+        input:focus, select:focus {
+            outline: none;
+            border-color: var(--secondary);
+            box-shadow: 0 0 0 3px rgba(0, 242, 254, 0.2);
+        }
+        
+        select {
+            appearance: none;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%23A7A9BE' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 16px center;
+            background-size: 20px;
+        }
+        
         button {
-          font-size: 14px;
-          padding: 10px;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            z-index: 1;
         }
-
+        
+        button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 0;
+            height: 100%;
+            background: rgba(255, 255, 255, 0.1);
+            transition: width 0.3s ease;
+            z-index: -1;
+        }
+        
+        button:hover::before {
+            width: 100%;
+        }
+        
+        button:active {
+            transform: translateY(2px);
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            color: white;
+            padding: 16px 24px;
+            box-shadow: 0 8px 20px rgba(121, 40, 202, 0.3);
+        }
+        
+        .btn-primary:hover {
+            box-shadow: 0 12px 24px rgba(121, 40, 202, 0.5);
+        }
+        
         .attendance-btn {
-          min-width: 100%;
-          margin-top: 5px;
+            padding: 10px 16px;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 500;
         }
-
-        table th,
-        table td {
-          padding: 10px 8px;
+        
+        .present-btn {
+            background-color: rgba(114, 242, 235, 0.2);
+            color: var(--success);
+            border: 1px solid var(--success);
         }
-
+        
+        .present-btn:hover {
+            background-color: rgba(114, 242, 235, 0.3);
+        }
+        
+        .absent-btn {
+            background-color: rgba(255, 84, 112, 0.2);
+            color: var(--danger);
+            border: 1px solid var(--danger);
+        }
+        
+        .absent-btn:hover {
+            background-color: rgba(255, 84, 112, 0.3);
+        }
+        
+        .delete-btn {
+            background-color: transparent;
+            color: var(--danger);
+            border: 1px solid var(--danger);
+            padding: 10px 16px;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 500;
+        }
+        
+        .delete-btn:hover {
+            background-color: rgba(255, 84, 112, 0.2);
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0;
+            margin-top: 20px;
+            border-radius: 12px;
+            overflow: hidden;
+        }
+        
+        thead {
+            background: linear-gradient(to right, var(--card-bg), #2a2739);
+        }
+        
+        th, td {
+            padding: 16px;
+            text-align: left;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+        
+        th {
+            font-weight: 600;
+            color: var(--text-secondary);
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+            font-size: 0.85rem;
+        }
+        
+        tbody tr {
+            background-color: var(--card-bg);
+            transition: background-color 0.3s;
+        }
+        
+        tbody tr:hover {
+            background-color: rgba(255, 255, 255, 0.02);
+        }
+        
+        tbody tr:last-child td {
+            border-bottom: none;
+        }
+        
+        .actions {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+        
+        .present {
+            color: var(--success);
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        
+        .present::before {
+            content: "";
+            display: inline-block;
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background-color: var(--success);
+        }
+        
+        .absent {
+            color: var(--danger);
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        
+        .absent::before {
+            content: "";
+            display: inline-block;
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background-color: var(--danger);
+        }
+        
+        .undetermined {
+            color: var(--text-secondary);
+            font-style: italic;
+            opacity: 0.8;
+        }
+        
         .install-prompt {
-          flex-direction: column;
-          align-items: flex-start;
-          gap: 10px;
+            background: linear-gradient(135deg, rgba(121, 40, 202, 0.2) 0%, rgba(0, 242, 254, 0.2) 100%);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 30px;
+            display: none;
+            align-items: center;
+            justify-content: space-between;
+            backdrop-filter: blur(10px);
         }
-
-        #installBtn {
-          width: 100%;
-          text-align: center;
+        
+        .install-prompt p {
+            margin: 0;
+            font-weight: 500;
         }
+        
+        .install-btn {
+            background: var(--primary);
+            color: white;
+            padding: 12px 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(121, 40, 202, 0.4);
+        }
+        
+        .section-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin: 30px 0 20px;
+            color: var(--text-primary);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        
+        .section-title::before {
+            content: "";
+            display: block;
+            width: 4px;
+            height: 24px;
+            background: linear-gradient(to bottom, var(--primary), var(--secondary));
+            border-radius: 4px;
+        }
+        
+        /* Responsive */
         @media (max-width: 768px) {
-          .table-wrapper {
-            overflow-x: auto;
-          }
-
-          table {
-            min-width: 700px;
-          }
+            .card {
+                padding: 20px;
+            }
+            
+            table {
+                font-size: 14px;
+            }
+            
+            th, td {
+                padding: 12px;
+            }
+            
+            .actions {
+                flex-direction: column;
+                gap: 8px;
+            }
+            
+            .attendance-btn, .delete-btn {
+                padding: 8px 12px;
+                width: 100%;
+                text-align: center;
+            }
         }
-      }
+        
+        /* Animasi */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .fadeIn {
+            animation: fadeIn 0.5s ease forwards;
+        }
+        
+        tbody tr {
+            opacity: 0;
+            animation: fadeIn 0.5s ease forwards;
+        }
+        
+        tbody tr:nth-child(1) { animation-delay: 0.1s; }
+        tbody tr:nth-child(2) { animation-delay: 0.2s; }
+        tbody tr:nth-child(3) { animation-delay: 0.3s; }
+        tbody tr:nth-child(4) { animation-delay: 0.4s; }
+        tbody tr:nth-child(5) { animation-delay: 0.5s; }
+        tbody tr:nth-child(6) { animation-delay: 0.6s; }
+        tbody tr:nth-child(7) { animation-delay: 0.7s; }
+        tbody tr:nth-child(8) { animation-delay: 0.8s; }
+        tbody tr:nth-child(9) { animation-delay: 0.9s; }
+        tbody tr:nth-child(10) { animation-delay: 1s; }
     </style>
-  </head>
-  <body>
+</head>
+<body>
     <header>
-      <h1>Jadwal Mata Kuliah</h1>
+        <h1>JADWAL MATA KULIAH</h1>
     </header>
 
     <main>
-      <div class="install-prompt" id="installPrompt">
-        <p>
-          <strong>📱 Instal Aplikasi</strong> - Akses jadwal kuliah Anda kapan
-          saja, bahkan offline!
-        </p>
-        <button id="installBtn">Instal Sekarang</button>
-      </div>
+        <div class="install-prompt" id="installPrompt">
+            <p>Instal aplikasi ini untuk akses cepat dan offline!</p>
+            <button class="install-btn" id="installBtn">Instal Sekarang</button>
+        </div>
 
-      <div class="card">
-        <h2 class="section-title">Tambah Mata Kuliah Baru</h2>
-        <form id="courseForm">
-          <div class="form-group">
-            <label for="courseName">Nama Mata Kuliah:</label>
-            <input
-              type="text"
-              id="courseName"
-              placeholder="Contoh: Pemrograman Web"
-              required
-            />
-          </div>
+        <div class="card">
+            <div class="glow primary"></div>
+            <div class="glow secondary"></div>
+            <h2 class="section-title">Tambah Mata Kuliah</h2>
+            <form id="courseForm">
+                <div class="form-group">
+                    <label for="courseName">Nama Mata Kuliah</label>
+                    <input type="text" id="courseName" placeholder="Masukkan nama mata kuliah" required>
+                </div>
 
-          <div class="form-group">
-            <label for="day">Hari:</label>
-            <select id="day" required>
-              <option value="">Pilih Hari</option>
-              <option value="Senin">Senin</option>
-              <option value="Selasa">Selasa</option>
-              <option value="Rabu">Rabu</option>
-              <option value="Kamis">Kamis</option>
-              <option value="Jumat">Jumat</option>
-              <option value="Sabtu">Sabtu</option>
-            </select>
-          </div>
+                <div class="form-group">
+                    <label for="day">Hari</label>
+                    <select id="day" required>
+                        <option value="">Pilih Hari</option>
+                        <option value="Senin">Senin</option>
+                        <option value="Selasa">Selasa</option>
+                        <option value="Rabu">Rabu</option>
+                        <option value="Kamis">Kamis</option>
+                        <option value="Jumat">Jumat</option>
+                        <option value="Sabtu">Sabtu</option>
+                    </select>
+                </div>
 
-          <div class="form-group">
-            <label for="time">Jam:</label>
-            <input type="time" id="time" required />
-          </div>
+                <div class="form-group">
+                    <label for="time">Jam</label>
+                    <input type="time" id="time" required>
+                </div>
 
-          <div class="form-group">
-            <label for="room">Ruangan:</label>
-            <input type="text" id="room" placeholder="Contoh: A-301" required />
-          </div>
+                <div class="form-group">
+                    <label for="room">Ruangan</label>
+                    <input type="text" id="room" placeholder="Masukkan ruangan" required>
+                </div>
 
-          <button type="submit">Tambah Mata Kuliah</button>
-        </form>
-      </div>
+                <button type="submit" class="btn-primary">Tambah Mata Kuliah</button>
+            </form>
+        </div>
 
-      <h2 class="section-title">Daftar Mata Kuliah</h2>
-      <table id="courseTable">
-        <thead>
-          <tr>
-            <th>Mata Kuliah</th>
-            <th>Hari</th>
-            <th>Jam</th>
-            <th>Ruangan</th>
-            <th>Masuk/Tidak Masuk</th>
-            <th>Aksi</th>
-          </tr>
-        </thead>
-        <tbody>
-          <!-- Data akan ditampilkan disini -->
-        </tbody>
-      </table>
+        <div class="card">
+            <div class="glow primary"></div>
+            <div class="glow secondary"></div>
+            <h2 class="section-title">Daftar Mata Kuliah</h2>
+            <table id="courseTable">
+                <thead>
+                    <tr>
+                        <th>Mata Kuliah</th>
+                        <th>Hari</th>
+                        <th>Jam</th>
+                        <th>Ruangan</th>
+                        <th>Kehadiran</th>
+                        <th>Aksi</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Data akan ditampilkan disini -->
+                </tbody>
+            </table>
+        </div>
     </main>
 
     <script>
-      // Konfigurasi Manifest untuk PWA
-      const manifestContent = {
-        name: "Jadwal Mata Kuliah",
-        short_name: "JadwalKuliah",
-        start_url: ".",
-        display: "standalone",
-        background_color: "#ffffff",
-        theme_color: "#3f51b5",
-        icons: [
-          {
-            src: "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMDAgMTAwIj48cmVjdCB3aWR0aD0iMTAwIiBoZWlnaHQ9IjEwMCIgZmlsbD0iIzNmNTFiNSIgcng9IjIwIiByeT0iMjAiLz48dGV4dCB4PSI1MCIgeT0iNTUiIGZvbnQtZmFtaWx5PSJhcmlhbCIgZm9udC1zaXplPSI0MCIgZmlsbD0id2hpdGUiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGRvbWluYW50LWJhc2VsaW5lPSJtaWRkbGUiPkpLPC90ZXh0Pjwvc3ZnPg==",
-            sizes: "192x192",
-            type: "image/svg+xml",
-          },
-          {
-            src: "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMDAgMTAwIj48cmVjdCB3aWR0aD0iMTAwIiBoZWlnaHQ9IjEwMCIgZmlsbD0iIzNmNTFiNSIgcng9IjIwIiByeT0iMjAiLz48dGV4dCB4PSI1MCIgeT0iNTUiIGZvbnQtZmFtaWx5PSJhcmlhbCIgZm9udC1zaXplPSI0MCIgZmlsbD0id2hpdGUiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGRvbWluYW50LWJhc2VsaW5lPSJtaWRkbGUiPkpLPC90ZXh0Pjwvc3ZnPg==",
-            sizes: "512x512",
-            type: "image/svg+xml",
-          },
-        ],
-      };
+        // Konfigurasi Manifest untuk PWA
+        const manifestContent = {
+            "name": "Jadwal Mata Kuliah",
+            "short_name": "JadwalKuliah",
+            "start_url": ".",
+            "display": "standalone",
+            "background_color": "#0F0E17",
+            "theme_color": "#7928CA",
+            "icons": [
+                {
+                    "src": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMDAgMTAwIj48cmVjdCB3aWR0aD0iMTAwIiBoZWlnaHQ9IjEwMCIgZmlsbD0iIzc5MjhDQSIvPjx0ZXh0IHg9IjUwIiB5PSI1MCIgZm9udC1mYW1pbHk9ImFyaWFsIiBmb250LXNpemU9IjQwIiBmaWxsPSJ3aGl0ZSIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZG9taW5hbnQtYmFzZWxpbmU9Im1pZGRsZSI+SktMPC90ZXh0Pjwvc3ZnPg==",
+                    "sizes": "192x192",
+                    "type": "image/svg+xml"
+                },
+                {
+                    "src": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMDAgMTAwIj48cmVjdCB3aWR0aD0iMTAwIiBoZWlnaHQ9IjEwMCIgZmlsbD0iIzc5MjhDQSIvPjx0ZXh0IHg9IjUwIiB5PSI1MCIgZm9udC1mYW1pbHk9ImFyaWFsIiBmb250LXNpemU9IjQwIiBmaWxsPSJ3aGl0ZSIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZG9taW5hbnQtYmFzZWxpbmU9Im1pZGRsZSI+SktMPC90ZXh0Pjwvc3ZnPg==",
+                    "sizes": "512x512",
+                    "type": "image/svg+xml"
+                }
+            ]
+        };
 
-      // Buat URL untuk manifest
-      const manifestUrl = URL.createObjectURL(
-        new Blob([JSON.stringify(manifestContent)], {
-          type: "application/json",
-        })
-      );
-      document
-        .getElementById("manifestPlaceholder")
-        .setAttribute("href", manifestUrl);
+        // Buat URL untuk manifest
+        const manifestUrl = URL.createObjectURL(new Blob([JSON.stringify(manifestContent)], {type: 'application/json'}));
+        document.getElementById('manifestPlaceholder').setAttribute('href', manifestUrl);
 
-      // Daftar untuk menampung data kursus
-      let courses = JSON.parse(localStorage.getItem("courses")) || [];
+        // Daftar untuk menampung data kursus
+        let courses = JSON.parse(localStorage.getItem('courses')) || [];
 
-      // Menampilkan data kursus saat pertama kali memuat halaman
-      displayCourses();
+        // Menampilkan data kursus saat pertama kali memuat halaman
+        displayCourses();
 
-      // Event listener untuk form
-      document
-        .getElementById("courseForm")
-        .addEventListener("submit", function (e) {
-          e.preventDefault();
-
-          const courseName = document.getElementById("courseName").value;
-          const day = document.getElementById("day").value;
-          const time = document.getElementById("time").value;
-          const room = document.getElementById("room").value;
-
-          // Membuat ID unik untuk setiap kursus
-          const id = Date.now().toString();
-
-          // Menambahkan kursus baru
-          const newCourse = {
-            id,
-            name: courseName,
-            day,
-            time,
-            room,
-            attendance: null, // null berarti belum ditentukan
-          };
-
-          courses.push(newCourse);
-          saveCourses();
-          displayCourses();
-
-          // Reset form
-          this.reset();
-
-          // Tampilkan notifikasi
-          alert("Mata kuliah berhasil ditambahkan!");
+        // Event listener untuk form
+        document.getElementById('courseForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const courseName = document.getElementById('courseName').value;
+            const day = document.getElementById('day').value;
+            const time = document.getElementById('time').value;
+            const room = document.getElementById('room').value;
+            
+            // Membuat ID unik untuk setiap kursus
+            const id = Date.now().toString();
+            
+            // Menambahkan kursus baru
+            const newCourse = {
+                id,
+                name: courseName,
+                day,
+                time,
+                room,
+                attendance: null // null berarti belum ditentukan
+            };
+            
+            courses.push(newCourse);
+            saveCourses();
+            displayCourses();
+            
+            // Reset form dan tampilkan pesan sukses
+            this.reset();
+            showNotification('Mata kuliah berhasil ditambahkan!');
         });
 
-      // Fungsi untuk menyimpan data kursus ke localStorage
-      function saveCourses() {
-        localStorage.setItem("courses", JSON.stringify(courses));
-      }
-
-      // Fungsi untuk menampilkan data kursus
-      function displayCourses() {
-        const tableBody = document.querySelector("#courseTable tbody");
-        tableBody.innerHTML = "";
-
-        if (courses.length === 0) {
-          tableBody.innerHTML =
-            '<tr><td colspan="6" class="empty-state">Belum ada mata kuliah yang ditambahkan</td></tr>';
-          return;
+        // Fungsi untuk menyimpan data kursus ke localStorage
+        function saveCourses() {
+            localStorage.setItem('courses', JSON.stringify(courses));
         }
 
-        // Sortir berdasarkan hari dan waktu
-        courses.sort((a, b) => {
-          const days = ["Senin", "Selasa", "Rabu", "Kamis", "Jumat", "Sabtu"];
-          const dayA = days.indexOf(a.day);
-          const dayB = days.indexOf(b.day);
+        // Fungsi untuk menampilkan notifikasi
+        function showNotification(message) {
+            const notification = document.createElement('div');
+            notification.style.position = 'fixed';
+            notification.style.bottom = '20px';
+            notification.style.right = '20px';
+            notification.style.backgroundColor = 'rgba(114, 242, 235, 0.9)';
+            notification.style.color = '#0F0E17';
+            notification.style.padding = '16px 24px';
+            notification.style.borderRadius = '10px';
+            notification.style.boxShadow = '0 8px 30px rgba(0, 0, 0, 0.2)';
+            notification.style.zIndex = '9999';
+            notification.style.fontWeight = '500';
+            notification.innerText = message;
+            notification.style.transform = 'translateY(100px)';
+            notification.style.opacity = '0';
+            notification.style.transition = 'all 0.3s ease';
+            
+            document.body.appendChild(notification);
+            
+            setTimeout(() => {
+                notification.style.transform = 'translateY(0)';
+                notification.style.opacity = '1';
+            }, 100);
+            
+            setTimeout(() => {
+                notification.style.transform = 'translateY(100px)';
+                notification.style.opacity = '0';
+                
+                setTimeout(() => {
+                    document.body.removeChild(notification);
+                }, 300);
+            }, 3000);
+        }
 
-          if (dayA !== dayB) {
-            return dayA - dayB;
-          }
-
-          return a.time.localeCompare(b.time);
-        });
-
-        courses.forEach((course) => {
-          const row = document.createElement("tr");
-
-          // Format waktu untuk tampilan yang lebih baik
-          const timeFormatted = formatTime(course.time);
-
-          // Tentukan kelas dan teks untuk kehadiran
-          let attendanceClass = "";
-          let attendanceText = "Belum ditentukan";
-
-          if (course.attendance === true) {
-            attendanceClass = "present";
-            attendanceText = "Masuk";
-          } else if (course.attendance === false) {
-            attendanceClass = "absent";
-            attendanceText = "Tidak Masuk";
-          }
-
-          row.innerHTML = `
-                    <td><strong>${course.name}</strong></td>
+        // Fungsi untuk menampilkan data kursus
+        function displayCourses() {
+            const tableBody = document.querySelector('#courseTable tbody');
+            tableBody.innerHTML = '';
+            
+            if (courses.length === 0) {
+                tableBody.innerHTML = '<tr><td colspan="6" style="text-align: center; padding: 30px;">Belum ada mata kuliah yang ditambahkan</td></tr>';
+                return;
+            }
+            
+            courses.forEach((course, index) => {
+                const row = document.createElement('tr');
+                row.style.animationDelay = `${0.1 * index}s`;
+                
+                // Format waktu untuk tampilan yang lebih baik
+                const timeFormatted = formatTime(course.time);
+                
+                // Tentukan kelas dan teks untuk kehadiran
+                let attendanceClass = 'undetermined';
+                let attendanceText = 'Belum ditentukan';
+                
+                if (course.attendance === true) {
+                    attendanceClass = 'present';
+                    attendanceText = 'Hadir';
+                } else if (course.attendance === false) {
+                    attendanceClass = 'absent';
+                    attendanceText = 'Tidak Hadir';
+                }
+                
+                row.innerHTML = `
+                    <td>${course.name}</td>
                     <td>${course.day}</td>
                     <td>${timeFormatted}</td>
                     <td>${course.room}</td>
-                    <td class="${attendanceClass}">${attendanceText}</td>
+                    <td><span class="${attendanceClass}">${attendanceText}</span></td>
                     <td class="actions">
-                        <button class="attendance-btn attendance-yes" onclick="markAttendance('${course.id}', true)">Masuk</button>
-                        <button class="attendance-btn attendance-no" onclick="markAttendance('${course.id}', false)">Tidak Masuk</button>
+                        <button class="attendance-btn present-btn" onclick="markAttendance('${course.id}', true)">Hadir</button>
+                        <button class="attendance-btn absent-btn" onclick="markAttendance('${course.id}', false)">Tidak Hadir</button>
                         <button class="delete-btn" onclick="deleteCourse('${course.id}')">Hapus</button>
                     </td>
                 `;
-
-          tableBody.appendChild(row);
-        });
-      }
-
-      // Format waktu dari 24 jam
-      function formatTime(time) {
-        if (!time) return "";
-
-        const [hours, minutes] = time.split(":");
-        return `${hours}:${minutes}`;
-      }
-
-      // Fungsi untuk menandai kehadiran
-      window.markAttendance = function (id, isPresent) {
-        const courseIndex = courses.findIndex((course) => course.id === id);
-        if (courseIndex !== -1) {
-          courses[courseIndex].attendance = isPresent;
-          saveCourses();
-          displayCourses();
-        }
-      };
-
-      // Fungsi untuk menghapus kursus
-      window.deleteCourse = function (id) {
-        if (confirm("Apakah Anda yakin ingin menghapus mata kuliah ini?")) {
-          courses = courses.filter((course) => course.id !== id);
-          saveCourses();
-          displayCourses();
-        }
-      };
-
-      // Registrasi Service Worker untuk PWA
-      if ("serviceWorker" in navigator) {
-        window.addEventListener("load", function () {
-          // Buat dan suntikkan service worker
-          const swContent = `
-                    const CACHE_NAME = 'jadwal-mata-kuliah-v1';
-                    const urlsToCache = [
-                        '/',
-                        '/index.html',
-                        '${manifestUrl}'
-                    ];
-
-                    self.addEventListener('install', function(event) {
-                        event.waitUntil(
-                            caches.open(CACHE_NAME)
-                                .then(function(cache) {
-                                    return cache.addAll(urlsToCache);
-                                })
-                        );
-                    });
-
-                    self.addEventListener('fetch', function(event) {
-                        event.respondWith(
-                            caches.match(event.request)
-                                .then(function(response) {
-                                    if (response) {
-                                        return response;
-                                    }
-                                    return fetch(event.request);
-                                })
-                        );
-                    });
-                `;
-
-          const swBlob = new Blob([swContent], { type: "text/javascript" });
-          const swUrl = URL.createObjectURL(swBlob);
-          navigator.serviceWorker
-            .register(swUrl)
-            .then(function (registration) {
-              console.log("ServiceWorker registration successful");
-            })
-            .catch(function (err) {
-              console.log("ServiceWorker registration failed: ", err);
+                
+                tableBody.appendChild(row);
             });
-        });
-      }
-
-      // Menampilkan prompt instalasi - DIUBAH UNTUK SELALU DITAMPILKAN
-      document.getElementById("installPrompt").style.display = "flex";
-
-      let deferredPrompt;
-      const installBtn = document.getElementById("installBtn");
-
-      window.addEventListener("beforeinstallprompt", (e) => {
-        // Mencegah Chrome dari menampilkan prompt instalasi otomatis
-        e.preventDefault();
-        // Simpan event agar dapat dipicu nanti
-        deferredPrompt = e;
-      });
-
-      installBtn.addEventListener("click", async () => {
-        if (deferredPrompt) {
-          // Tampilkan prompt instalasi
-          deferredPrompt.prompt();
-          // Tunggu pengguna merespons prompt
-          const { outcome } = await deferredPrompt.userChoice;
-          console.log(`User ${outcome} the installation`);
-          // Hapus referensi karena tidak bisa digunakan lagi
-          deferredPrompt = null;
-        } else {
-          alert(
-            'Aplikasi ini dapat diinstal melalui menu browser Anda. Di Chrome, klik tiga titik di kanan atas dan pilih "Instal Jadwal Mata Kuliah"'
-          );
         }
-      });
 
-      window.addEventListener("appinstalled", () => {
-        // Update teks tombol setelah instalasi
-        document.getElementById("installPrompt").innerHTML =
-          "<p>✅ Aplikasi berhasil diinstal! Anda dapat mengaksesnya dari layar beranda perangkat Anda.</p>";
-        console.log("PWA was installed");
-      });
+        // Format waktu dari 24 jam menjadi format yang lebih baik
+        function formatTime(time) {
+            if (!time) return '';
+            
+            const [hours, minutes] = time.split(':');
+            return `${hours}:${minutes}`;
+        }
+
+        // Fungsi untuk menandai kehadiran
+        window.markAttendance = function(id, isPresent) {
+            const courseIndex = courses.findIndex(course => course.id === id);
+            if (courseIndex !== -1) {
+                courses[courseIndex].attendance = isPresent;
+                saveCourses();
+                displayCourses();
+                showNotification(isPresent ? 'Kehadiran berhasil dicatat!' : 'Ketidakhadiran berhasil dicatat!');
+            }
+        };
+
+        // Fungsi untuk menghapus kursus
+        window.deleteCourse = function(id) {
+            if (confirm('Apakah Anda yakin ingin menghapus mata kuliah ini?')) {
+                courses = courses.filter(course => course.id !== id);
+                saveCourses();
+                displayCourses();
+                showNotification('Mata kuliah berhasil dihapus!');
+            }
+        };
+
+        // Registrasi Service Worker untuk PWA
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', function() {
+                navigator.serviceWorker.register('sw.js').then(function(registration) {
+                    // Service worker berhasil didaftarkan
+                    console.log('ServiceWorker registration successful');
+                    
+                    // Buat dan suntikkan service worker
+                    const swContent = `
+                        const CACHE_NAME = 'jadwal-mata-kuliah-v1';
+                        const urlsToCache = [
+                            '/',
+                            '/index.html',
+                            '${manifestUrl}',
+                            'https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap'
+                        ];
+
+                        self.addEventListener('install', function(event) {
+                            event.waitUntil(
+                                caches.open(CACHE_NAME)
+                                    .then(function(cache) {
+                                        return cache.addAll(urlsToCache);
+                                    })
+                            );
+                        });
+
+                        self.addEventListener('fetch', function(event) {
+                            event.respondWith(
+                                caches.match(event.request)
+                                    .then(function(response) {
+                                        if (response) {
+                                            return response;
+                                        }
+                                        return fetch(event.request);
+                                    })
+                            );
+                        });
+                    `;
+                    
+                    const swBlob = new Blob([swContent], {type: 'text/javascript'});
+                    const swUrl = URL.createObjectURL(swBlob);
+                    navigator.serviceWorker.register(swUrl);
+                    
+                }).catch(function(err) {
+                    // Service worker gagal didaftarkan
+                    console.log('ServiceWorker registration failed: ', err);
+                });
+            });
+        }
+
+        // Menampilkan prompt instalasi
+        let deferredPrompt;
+        const installPrompt = document.getElementById('installPrompt');
+        const installBtn = document.getElementById('installBtn');
+
+        window.addEventListener('beforeinstallprompt', (e) => {
+            // Mencegah Chrome dari menampilkan prompt instalasi otomatis
+            e.preventDefault();
+            // Simpan event agar dapat dipicu nanti
+            deferredPrompt = e;
+            // Tampilkan UI instalasi kustom
+            installPrompt.style.display = 'flex';
+        });
+
+        installBtn.addEventListener('click', async () => {
+            if (deferredPrompt) {
+                // Tampilkan prompt instalasi
+                deferredPrompt.prompt();
+                // Tunggu pengguna merespons prompt
+                const { outcome } = await deferredPrompt.userChoice;
+                console.log(`User ${outcome} the installation`);
+                // Hapus referensi karena tidak bisa digunakan lagi
+                deferredPrompt = null;
+                // Sembunyikan UI instalasi kami
+                installPrompt.style.display = 'none';
+            }
+        });
+
+        window.addEventListener('appinstalled', () => {
+            // Sembunyikan UI instalasi
+            installPrompt.style.display = 'none';
+            showNotification('Aplikasi berhasil diinstal!');
+            console.log('PWA was installed');
+        });
     </script>
-  </body>
+</body>
 </html>
